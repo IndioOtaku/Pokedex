@@ -1,0 +1,26 @@
+﻿@using Application.ViewModels.TipoPrimario;
+@model SaveTipoPrimarioViewModel
+@{
+    ViewData["Title"] = "Eliminar tipo";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>¿Estás seguro que deseas eliminar el tipo @Model.Nombre?</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Tipo" asp-action="DeletePost">
+
+                        <input type="hidden" asp-for="idTipoPrimario" asp-route-id="@Model.idTipoPrimario" />
+
+                        <button type="submit" class="btn btn-primary">Eliminar</button>
+                        <a asp-controller="Tipo" asp-action="Index" class="btn btn-warning">Volver atrás</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

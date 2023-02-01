@@ -1,0 +1,69 @@
+﻿@using Application.ViewModels.Pokemon
+@using Application.ViewModels.Region
+@model List<PokemonViewModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        @if (Model == null || Model.Count == 0)
+        {
+            <h2>No hay pokemons</h2>
+        }
+        else
+        {
+            @foreach (PokemonViewModel item in Model)
+            {
+                <div class="col-4">
+                    <div class="card- shadow-sm">
+                        <img class="bd-placeholder-img card-img-top" src="@item.imgPokemon"/>
+                        <div class="card-body">
+                            <h4>@item.nombre</h4>
+                            <p class="card-text">Tipo primario: @item.TipoPrimarioName</p>
+                            <p class="card-text">Tipo Secundario: @item.TipoSecundarioName</p>
+                            <p class="card-text">Region: @item.RegionName</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-light">
+                    <h4>Filtros</h4>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Regiones</h4>
+
+                    <form method="post" asp-controller="Home" asp-action="Index">
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" value="null" type="radio" name="RegionId" id="category-all" />
+                                <label class="form-check-label" for="category-all">Todas</label>
+                            </div>
+                        </div>
+
+                        @foreach (RegionViewModel region in ViewBag.Regiones)
+                        {
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" value="@region.idRegion" type="radio" name="RegionId" id="category-@region.idRegion" />
+                                    <label class="form-check-label" for="category-@region.idRegion">@region.Nombre</label>
+                                </div>
+                            </div>
+                        }
+
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

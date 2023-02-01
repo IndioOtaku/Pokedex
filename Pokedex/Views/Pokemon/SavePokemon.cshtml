@@ -1,0 +1,72 @@
+﻿@using Application.ViewModels.Pokemon;
+@model SavePokemonViewModel
+
+@{
+    bool editMode = Model.idPokemon == 0 ? false : true;
+    ViewData["Title"] = "Registrar Pokemon";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card">
+                <div class="card-header bg-dark text-light">
+                    <h4>@(editMode ? $"Editar Pokemon: {Model.nombre}" : "Registrar Pokemon")</h4>
+                </div>
+                <div class="card-body">
+                    @if(Model.Regiones == null || Model.Regiones.Count == 0)
+                    {
+                        <h4>No hay Regiones Creadas</h4>
+                        <a asp-controller="Pokemon" asp-action="Index" class="btn btn-warning">Volver atrás</a>
+                    }
+                    else if (Model.TipoPrimario == null || Model.TipoPrimario.Count == 0)
+                    {
+                        <h4>No hay Tipos Creados</h4>
+                        <a asp-controller="Pokemon" asp-action="Index" class="btn btn-warning">Volver atrás</a>
+                    }
+                        <form method="post" asp-controller="Pokemon" asp-action="@(editMode ? "EditPost":"CreatePost")" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label asp-for="imgPokemon" class="form-label">UrlPokémon: </label>
+                                <input type="text" asp-for="imgPokemon" class="form-control" />
+                                <span asp-validation-for="imgPokemon" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="nombre" class="form-label">Nombre: </label>
+                                <input type="text" asp-for="nombre" class="form-control" />
+                                <span asp-validation-for="nombre" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="idTipoPrimario" class="form-label">Tipo Primario: </label>
+                                <select asp-for="idTipoPrimario" asp-items="@(new SelectList(Model.TipoPrimario,"idTipoPrimario","Nombre"))" class="form-select">
+                                    <option value="0">Seleccione el tipo primario del pokemón</option>
+                                </select>
+                                <span asp-validation-for="idTipoPrimario" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="idTipoSecundario" class="form-label">Tipo Secundario: </label>
+                                <select asp-for="idTipoSecundario" asp-items="@(new SelectList(Model.TipoSecundario,"idTipoSecundario","Nombre"))" class="form-select">
+                                    <option value="0">Seleccione el tipo secundario del pokemón</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="RegionId" class="form-label">Región: </label>
+                                <select asp-for="RegionId" asp-items="@(new SelectList(Model.Regiones,"idRegion","Nombre"))" class="form-select">
+                                    <option value="0">Seleccione una región</option>
+
+                                </select>
+                                <span asp-validation-for="RegionId" class="text-danger"></span>
+                            </div>
+
+                            <input type="hidden" asp-for="idPokemon" />
+                            <button type="submit" class="btn btn-primary">@(editMode ? $"Editar pokemon {Model.nombre}" : "Registrar Pokemon")</button>
+                            <a asp-controller="Pokemon" asp-action="Index" class="btn btn-warning">Volver atrás</a>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
